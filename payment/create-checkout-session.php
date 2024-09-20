@@ -2,7 +2,7 @@
 require '../vendor/autoload.php'; // Stripe SDK
 require '../database/db_connect.php';
 
-\Stripe\Stripe::setApiKey('stripe_secret_key_here');
+\Stripe\Stripe::setApiKey('sk_test_51PM4JAJVBSSkhR5YX4cLn2nte3Okt9vsad7gjyfF1H02kJe79PsPYuXZMAJhpaCK7iGCX1J42nciPFRsSWly4ujc009rYxPjf4');
 
 $reservation_id = $_POST['reservation_id'];
 

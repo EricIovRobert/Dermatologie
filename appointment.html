@@ -98,26 +98,24 @@
         </div>
         <div class="row">
           <div class="col-md-4 form-group mt-3">
-            <label for="date">Alege ziua:</label>
             <input type="date" name="date" class="form-control" id="date" placeholder="Data programării" required="">
           </div>
           
           <div class="col-md-4 form-group mt-3">
-            <label for="time">Alege ora:</label>
             <select name="time" id="time" class="form-select" required="">
-              <!-- Orele disponibile vor fi încărcate din PHP -->
+              <option value="">Selectează ora</option>
             </select>
           </div>
+          
           <div class="col-md-4 form-group mt-3">
-            <select name="service" id="service" class="form-select" required="">
-              <option value="">Selectează Serviciul</option>
-              <option value="Consultatie Dermatologica">Consultație Dermatologică</option>
-              <option value="Tratament Acnee">Tratament pentru Acnee</option>
-              <option value="Tratament Anti-Imbatranire">Tratament Anti-Îmbătrânire</option>
-              <option value="Tratament Psoriazis">Tratament pentru Psoriazis</option>
-              <option value="Screening Cancer Piele">Screening pentru Cancerul de Piele</option>
-            </select>
-          </div>
+            <!-- Afișează textul ca fiind fix, fără să fie interactiv -->
+            <input type="text" class="form-control" value="Consultație Dermatologică" disabled>
+            
+            <!-- Input ascuns pentru a trimite valoarea la backend -->
+            <input type="hidden" name="service" value="Consultatie Dermatologica">
+        </div>
+        
+        
         </div>
       
         <div class="form-group mt-3">
@@ -205,36 +203,29 @@
 
 </body>
 <script>
- document.getElementById('date').addEventListener('change', function() {
-  var selectedDate = this.value;
+document.getElementById('date').addEventListener('change', function() {
+    var selectedDate = this.value;
 
-  // Fă o cerere AJAX pentru a obține orele disponibile pentru data selectată
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'forms/get-available-times.php', true);
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4) {
-      console.log('Status: ', xhr.status); // Afișează statusul răspunsului
-      console.log('Response: ', xhr.responseText); // Afișează răspunsul
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'forms/get-available-times.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var availableTimes = JSON.parse(xhr.responseText);
+            console.log(availableTimes);
+            var timeSelect = document.getElementById('time');
+            timeSelect.innerHTML = '<option value="">Selectează ora</option>'; // Golește dropdown-ul
 
-      if (xhr.status === 200) {
-        var availableTimes = JSON.parse(xhr.responseText);
-
-        // Actualizează dropdown-ul pentru ore
-        var timeSelect = document.getElementById('time');
-        timeSelect.innerHTML = ''; // Golește opțiunile existente
-
-        // Adaugă opțiunile disponibile
-        availableTimes.forEach(function(time) {
-          var option = document.createElement('option');
-          option.value = time;
-          option.text = time;
-          timeSelect.appendChild(option);
-        });
-      }
-    }
-  };
-  xhr.send('date=' + selectedDate);
+            // Adaugă opțiunile disponibile în dropdown
+            availableTimes.forEach(function(time) {
+                var option = document.createElement('option');
+                option.value = time;
+                option.text = time;
+                timeSelect.appendChild(option);
+            });
+        }
+    };
+    xhr.send('date=' + selectedDate);
 });
 
 </script>

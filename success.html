@@ -2,12 +2,112 @@
 <html lang="ro">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Succes - Rezervare confirmată</title>
+
+    <!-- CSS styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f9f9;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #00bfa5;
+            font-size: 2.5em;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #00bfa5;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        .btn:hover {
+            background-color: #008c7d;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 5px solid #00bfa5;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 0.9em;
+            color: #999;
+        }
+    </style>
+
+    <!-- JavaScript for redirection after 5 seconds -->
+    <script>
+        setTimeout(function() {
+            window.location.href = "index.html"; // Redirecționare către pagina de home
+        }, 5000);
+    </script>
 </head>
 
 <body>
-    <h1>Plata a fost efectuată cu succes!</h1>
-    <p>Rezervarea ta a fost confirmată. Vei primi un email de confirmare în scurt timp.</p>
-</body>
+    <div class="container">
+        <h1>Plata a fost efectuată cu succes!</h1>
+        <p>Rezervarea ta a fost confirmată. Vei primi un email de confirmare în scurt timp.</p>
+        
+        <!-- Loader Animation -->
+        <div class="loader"></div>
 
+        <p>Vei fi redirecționat către pagina principală în câteva secunde...</p>
+
+        <!-- Optional: Link pentru a reveni imediat -->
+        <a href="index.html" class="btn">Înapoi la pagina principală</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Bect Dermatologie. Toate drepturile rezervate.</p>
+    </footer>
+</body>
+<script>
+    setTimeout(function() {
+    window.location.href = "index.html";
+}, 5000);
+
+</script>
 </html>

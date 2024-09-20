@@ -1,32 +1,70 @@
 <?php
-require '../database/db_connect.php';
+require '../database/db_connect.php'; // Conexiunea la baza de date
+require '../vendor/autoload.php'; // Stripe SDK
 
+\Stripe\Stripe::setApiKey('sk_test_51PM4JAJVBSSkhR5YX4cLn2nte3Okt9vsad7gjyfF1H02kJe79PsPYuXZMAJhpaCK7iGCX1J42nciPFRsSWly4ujc009rYxPjf4'); // Cheia ta secretă Stripe
+
+// Verifică dacă cererea este POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $date = $_POST['date']; // Ziua selectată
+    // Preia datele din formular
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $service = $_POST['service'];
+    $date = $_POST['date'];
+    $time = $_POST['time'];
+    
+    // Verifică dacă există un mesaj sau nu
+    $message = !empty($_POST['message']) ? $_POST['message'] : NULL;
 
-    // Selectează orele care sunt deja rezervate în acea zi
-    $stmt = $pdo->prepare("SELECT TIME(date) as time FROM reservations WHERE DATE(date) = :date AND status = 'paid'");
-    $stmt->execute(['date' => $date]);
-    $reserved_times = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+    // Combină data și ora într-un format datetime pentru MySQL
+    $datetime = $date . ' ' . $time . ':00';
 
-    // Definim orele disponibile între 08:00 și 15:00
-    $available_times = [];
-    $start_time = strtotime('08:00');
-    $end_time = strtotime('15:00');
+    // Verifică dacă ora este deja rezervată
+    $check_availability = $pdo->prepare("SELECT * FROM reservations WHERE date = :date AND status = 'paid'");
+    $check_availability->execute(['date' => $datetime]);
+    $existing_reservation = $check_availability->fetch();
 
-    for ($time = $start_time; $time <= $end_time; $time = strtotime('+1 hour', $time)) {
-        $formatted_time = date('H:i', $time);
-        // Adaugă ora în lista disponibilă doar dacă nu este rezervată
-        if (!in_array($formatted_time, $reserved_times)) {
-            $available_times[] = $formatted_time;
-        }
+    if ($existing_reservation) {
+        // Redirecționează utilizatorul către o pagină care arată că ora este ocupată
+        header('Location: ../unavailable.html');
+    } else {
+        // Salvează rezervarea în baza de date cu status 'pending'
+        $stmt = $pdo->prepare("INSERT INTO reservations (name, email, phone, service, date, message, status) VALUES (:name, :email, :phone, :service, :date, :message, 'pending')");
+        $stmt->execute([
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'service' => $service,
+            'date' => $datetime,
+            'message' => $message
+        ]);
+
+        // Obține ID-ul rezervării adăugate
+        $reservation_id = $pdo->lastInsertId();
+
+        // Inițializează sesiunea Stripe pentru plată
+        $YOUR_DOMAIN = 'http://localhost/medicio';
+        $session = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'ron',
+                    'product_data' => [
+                        'name' => 'Rezervare: ' . $service,
+                    ],
+                    'unit_amount' => 5000, // Valoarea de plată (de ex. 50 lei)
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => $YOUR_DOMAIN . '/payment/payment-success.php?session_id={CHECKOUT_SESSION_ID}&reservation_id=' . $reservation_id,
+            'cancel_url' => $YOUR_DOMAIN . '/payment/payment-cancel.php',
+        ]);
+
+        // Redirecționează utilizatorul către Stripe Checkout
+        header("Location: " . $session->url);
     }
-
-    // Log pentru depanare
-    var_dump($reserved_times); // Vezi orele rezervate
-    var_dump($available_times); // Vezi orele disponibile
-
-    // Returnează orele disponibile în format JSON
-    echo json_encode($available_times);
+} else {
+    echo "Cerere nevalidă.";
 }
-?>
