@@ -82,7 +82,9 @@
   
     <div class="container" data-aos="fade-up" data-aos-delay="100">
   
-      <form action="forms/appointment.php" method="post" role="form" class="php-email-form">
+      <form action="forms/appointment.php" method="POST" role="form" class="php-email-form">
+
+
         <div class="row">
           <div class="col-md-4 form-group">
             <input type="text" name="name" class="form-control" id="name" placeholder="Numele tău" required="">
@@ -96,7 +98,15 @@
         </div>
         <div class="row">
           <div class="col-md-4 form-group mt-3">
-            <input type="datetime-local" name="date" class="form-control datepicker" id="date" placeholder="Data programării" required="">
+            <label for="date">Alege ziua:</label>
+            <input type="date" name="date" class="form-control" id="date" placeholder="Data programării" required="">
+          </div>
+          
+          <div class="col-md-4 form-group mt-3">
+            <label for="time">Alege ora:</label>
+            <select name="time" id="time" class="form-select" required="">
+              <!-- Orele disponibile vor fi încărcate din PHP -->
+            </select>
           </div>
           <div class="col-md-4 form-group mt-3">
             <select name="service" id="service" class="form-select" required="">
@@ -105,12 +115,11 @@
               <option value="Tratament Acnee">Tratament pentru Acnee</option>
               <option value="Tratament Anti-Imbatranire">Tratament Anti-Îmbătrânire</option>
               <option value="Tratament Psoriazis">Tratament pentru Psoriazis</option>
-              <option value="Tratament Dermatita">Tratament pentru Dermatită</option>
               <option value="Screening Cancer Piele">Screening pentru Cancerul de Piele</option>
             </select>
           </div>
-          
-  
+        </div>
+      
         <div class="form-group mt-3">
           <textarea class="form-control" name="message" rows="5" placeholder="Mesaj (Opțional)"></textarea>
         </div>
@@ -121,6 +130,7 @@
           <div class="text-center"><button type="submit">Programează-te</button></div>
         </div>
       </form>
+      
   
     </div>
   
@@ -194,4 +204,38 @@
   </footer>
 
 </body>
+<script>
+ document.getElementById('date').addEventListener('change', function() {
+  var selectedDate = this.value;
+
+  // Fă o cerere AJAX pentru a obține orele disponibile pentru data selectată
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'forms/get-available-times.php', true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      console.log('Status: ', xhr.status); // Afișează statusul răspunsului
+      console.log('Response: ', xhr.responseText); // Afișează răspunsul
+
+      if (xhr.status === 200) {
+        var availableTimes = JSON.parse(xhr.responseText);
+
+        // Actualizează dropdown-ul pentru ore
+        var timeSelect = document.getElementById('time');
+        timeSelect.innerHTML = ''; // Golește opțiunile existente
+
+        // Adaugă opțiunile disponibile
+        availableTimes.forEach(function(time) {
+          var option = document.createElement('option');
+          option.value = time;
+          option.text = time;
+          timeSelect.appendChild(option);
+        });
+      }
+    }
+  };
+  xhr.send('date=' + selectedDate);
+});
+
+</script>
   </html>

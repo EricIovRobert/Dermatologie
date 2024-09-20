@@ -1,45 +1,32 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+require '../database/db_connect.php';
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'contact@example.com';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $date = $_POST['date']; // Ziua selectată
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+    // Selectează orele care sunt deja rezervate în acea zi
+    $stmt = $pdo->prepare("SELECT TIME(date) as time FROM reservations WHERE DATE(date) = :date AND status = 'paid'");
+    $stmt->execute(['date' => $date]);
+    $reserved_times = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = 'Online Appointment Form';
+    // Definim orele disponibile între 08:00 și 15:00
+    $available_times = [];
+    $start_time = strtotime('08:00');
+    $end_time = strtotime('15:00');
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $contact->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+    for ($time = $start_time; $time <= $end_time; $time = strtotime('+1 hour', $time)) {
+        $formatted_time = date('H:i', $time);
+        // Adaugă ora în lista disponibilă doar dacă nu este rezervată
+        if (!in_array($formatted_time, $reserved_times)) {
+            $available_times[] = $formatted_time;
+        }
+    }
 
-  $contact->add_message( $_POST['name'], 'Name');
-  $contact->add_message( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['phone'], 'Phone');
-  $contact->add_message( $_POST['date'], 'Appointment Date');
-  $contact->add_message( $_POST['department'], 'Department');
-  $contact->add_message( $_POST['doctor'], 'Doctor');
-  $contact->add_message( $_POST['message'], 'Message');
+    // Log pentru depanare
+    var_dump($reserved_times); // Vezi orele rezervate
+    var_dump($available_times); // Vezi orele disponibile
 
-  echo $contact->send();
+    // Returnează orele disponibile în format JSON
+    echo json_encode($available_times);
+}
 ?>
