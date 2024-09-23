@@ -11,11 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Definim orele disponibile între 08:00 și 15:00
     $available_times = [];
-    $start_time = strtotime('08:00');
-    $end_time = strtotime('15:00');
+    $start_time = strtotime('16:00');
+    $end_time = strtotime('19:00');
 
     // Creează lista de ore disponibile excluzând orele rezervate
-    for ($time = $start_time; $time <= $end_time; $time = strtotime('+1 hour', $time)) {
+    for ($time = $start_time; $time <= $end_time; $time = strtotime('+15 minutes', $time)) {
         $formatted_time = date('H:i', $time); // Formatăm ora ca 'H:i'
         // Adaugă ora în lista disponibilă doar dacă nu este rezervată
         if (!in_array($formatted_time, $reserved_times)) {

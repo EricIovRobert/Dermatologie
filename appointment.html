@@ -97,7 +97,18 @@
         <div class="row">
           <div class="col-md-4 form-group mt-3">
             <input type="date" name="date" class="form-control" id="date" placeholder="Data programării" required="">
-          </div>
+        </div>
+        <script>
+          document.getElementById('date').addEventListener('input', function() {
+              const day = new Date(this.value).getUTCDay();
+              // Ziua 0 = Duminică, 2 = Marți, 6 = Sâmbătă
+              if ([0, 2, 6].includes(day)) {
+                  // Dacă e duminică, marți sau sâmbătă, șterge data selectată
+                  this.value = '';
+                  alert('Programările nu sunt disponibile în zilele de marți, sâmbătă și duminică.');
+              }
+          });
+      </script>
           
           <div class="col-md-4 form-group mt-3">
             <select name="time" id="time" class="form-select" required="">
