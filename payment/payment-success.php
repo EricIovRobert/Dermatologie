@@ -2,7 +2,7 @@
 require '../database/db_connect.php'; // Conexiunea la baza de date
 require '../vendor/autoload.php'; // PHPMailer și Stripe SDK
 
-\Stripe\Stripe::setApiKey('sk_test_51PM4JAJVBSSkhR5YX4cLn2nte3Okt9vsad7gjyfF1H02kJe79PsPYuXZMAJhpaCK7iGCX1J42nciPFRsSWly4ujc009rYxPjf4'); // Cheia ta secretă Stripe
+\Stripe\Stripe::setApiKey('pk_live_51Q2EhgGALGqnsrsMOa3cWrsvKMk95QnRWStBZucXltjcI42pUaM0GBsxnqTz7wFdmbwZ93nE99RyvRpQ9Jesrig700vknlFK6r'); // Cheia ta secretă Stripe
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -49,7 +49,7 @@ if ($session->payment_status === 'paid') {
 
         // Trimite emailul către doctor
         $mail->clearAddresses();
-        $mail->addAddress('doctor_email@example.com'); // Adresa reală a doctorului
+        $mail->addAddress('kissgezalevente@yahoo.com'); // Adresa reală a doctorului
         $mail->Subject = 'Nouă rezervare confirmată';
         $mail->Body = "
             O nouă rezervare a fost confirmată:<br>

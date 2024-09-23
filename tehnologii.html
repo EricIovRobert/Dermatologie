@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Service Details - Medicio Bootstrap Template</title>
+  <title>Bect Dermatologie</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -121,7 +121,7 @@
           <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
             <!-- DR. SKIN Section -->
             <div id="skin" class="service-content" style="display: block;">
-              <img src="assets/img/dr-skin.jpg" alt="DR. SKIN" class="img-fluid services-img mb-4">
+              <img src="assets/img/dr-skin.png" alt="DR. SKIN" class="img-fluid services-img mb-4 custom-img-size">
               <h3><i class="fas fa-stethoscope me-2"></i>DR. SKIN - 4-in-1 Skin Care System</h3>
               <p>DR. SKIN este un sistem profesional de îngrijire a pielii, ideal pentru exfoliere, regenerare și tonifiere.</p>
               <ul class="check-list">
@@ -130,12 +130,12 @@
                 <li><i class="bi bi-check-circle-fill "></i> <span>Lifting facial dublu cu microcurenți pentru tonifiere și elasticitate.</span></li>
                 <li><i class="bi bi-check-circle-fill "></i> <span>Masca electro pentru regenerarea și calmarea pielii.</span></li>
               </ul>
-              <a href="assets/img/pdf/dr-skin.pdf" target="_blank" class="btn btn-link">Descarcă PDF</a>
+              <a href="assets/img/pdf/dr-skin.pdf" target="_blank" class="btn btn-link">Accesează Detalii</a>
             </div>
             
             <!-- Laser Treatments Section -->
             <div id="accento" class="service-content" style="display: none;">
-              <img src="assets/img/ndyag-laser.jpg" alt="Laser Treatments" class="img-fluid services-img mb-4">
+              <img src="assets/img/accento.png" alt="Laser Treatments" class="img-fluid services-img mb-4 custom-img-size">
               <h3><i class="fas fa-lightbulb"></i>Laser Treatments - Nd:YAG 1064nm</h3>
               <p>Tehnologie laser de înaltă performanță, adaptată pentru tratamente diverse de piele, incluzând acnee, epilare și rejuvenare.</p>
               <ul class="check-list">
@@ -144,12 +144,12 @@
                 <li><i class="bi bi-check-circle-fill "></i> <span>Epilare definitivă pentru toate tipurile de piele.</span></li>
                 <li><i class="bi bi-check-circle-fill "></i> <span>Întinerire și strângerea pielii pentru fermitate și reducerea porilor.</span></li>
               </ul>
-              <a href="assets/img/pdf/accento.pdf" target="_blank" class="btn btn-link">Descarcă PDF</a>
+              <a href="assets/img/pdf/accento.pdf" target="_blank" class="btn btn-link">Accesează Detalii</a>
             </div>
     
             <!-- FIRE-XEL CO2 Laser Section -->
             <div id="laserco" class="service-content" style="display: none;">
-              <img src="assets/img/fire-xel.jpg" alt="FIRE-XEL CO2 Laser" class="img-fluid services-img mb-4">
+              <img src="assets/img/fire-xel.png" alt="FIRE-XEL CO2 Laser" class="img-fluid services-img mb-4 custom-img-size">
               <h3><i class="fas fa-sun me-2"></i>FIRE-XEL CO2 Laser</h3>
               <p>Laserul CO2 fractionat este soluția perfectă pentru tratamente anti-aging și regenerarea profundă a pielii.</p>
               <ul class="check-list">
@@ -157,7 +157,7 @@
                 <li><i class="bi bi-check-circle-fill "></i> <span>Tratamentul cicatricilor și uniformizarea tonului pielii.</span></li>
                 <li><i class="bi bi-check-circle-fill "></i> <span>Rezultate rapide și îmbunătățirea texturii pielii.</span></li>
               </ul>
-              <a href="assets/img/pdf/fire.pdf" target="_blank" class="btn btn-link">Descarcă PDF</a>
+              <a href="assets/img/pdf/fire.pdf" target="_blank" class="btn btn-link">Accesează Detalii</a>
             </div>
           </div>
     
@@ -223,7 +223,7 @@
     </div>
 
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Bect</strong> <span>- All Rights Reserved</span></p>
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Bect</strong> <span>-Toate drepturile rezervate</span></p>
       <div class="credits">
         Designed by <a href="https://netreach.ro" target="_blank">NetReach</a>
       </div>
@@ -235,6 +235,21 @@
 
   <!-- Preloader -->
   <div id="preloader"></div>
+
+  <style>
+    /* Stilul implicit pentru imagine */
+    .custom-img-size {
+        width: 100%; /* Imaginea va fi fluidă pe ecrane mici */
+        height: auto;
+    }
+
+    /* Pentru viewport-uri mari (desktop-uri) */
+    @media (min-width: 1200px) {
+        .custom-img-size {
+            width: 50%; /* Reduce dimensiunea imaginii la 50% din container */
+        }
+    }
+</style>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
