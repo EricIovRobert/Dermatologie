@@ -2,7 +2,7 @@
 require '../database/db_connect.php'; // Conexiunea la baza de date
 require '../vendor/autoload.php'; // PHPMailer și Stripe SDK
 
-\Stripe\Stripe::setApiKey('pk_live_51Q2EhgGALGqnsrsMOa3cWrsvKMk95QnRWStBZucXltjcI42pUaM0GBsxnqTz7wFdmbwZ93nE99RyvRpQ9Jesrig700vknlFK6r'); // Cheia ta secretă Stripe
+\Stripe\Stripe::setApiKey('sk_test_51PM4JAJVBSSkhR5YX4cLn2nte3Okt9vsad7gjyfF1H02kJe79PsPYuXZMAJhpaCK7iGCX1J42nciPFRsSWly4ujc009rYxPjf4'); // Cheia ta secretă Stripe
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -30,26 +30,26 @@ if ($session->payment_status === 'paid') {
     try {
         // Setează serverul SMTP pentru Mailtrap
         $mail->isSMTP();
-        $mail->Host = 'sandbox.smtp.mailtrap.io';
+        $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = '9d92866713b47e'; // Username-ul din Mailtrap
-        $mail->Password = '17f7d46462f2b9'; // Parola din Mailtrap
+        $mail->Username = 'deian.ageu1@gmail.com'; // Username-ul din Mailtrap
+        $mail->Password = "qmnu pnhc fnpp edtj"; // Parola din Mailtrap
         $mail->SMTPSecure = 'tls';
-        $mail->Port = 2525;
+        $mail->Port = 587;
 
         // Setează expeditorul
-        $mail->setFrom('from@example.com', 'Bect Dermatologie');
+        $mail->setFrom('office@bect.com', 'Bect Dermatologie');
 
         // Trimite emailul către client
         $mail->addAddress($reservation['email']); // Emailul clientului
         $mail->isHTML(true);
-        $mail->Subject = 'Confirmare rezervare și plată';
+        $mail->Subject = 'Confirmare rezervare si plata';
         $mail->Body = "<p>Salut, " . $reservation['name'] . "!<br>Rezervarea ta pentru " . $reservation['service'] . " a fost confirmată.<br>Data: " . $reservation['date'] . ".</p>";
         $mail->send();
 
         // Trimite emailul către doctor
         $mail->clearAddresses();
-        $mail->addAddress('kissgezalevente@yahoo.com'); // Adresa reală a doctorului
+        $mail->addAddress('ericiov73@gmail.com'); // Adresa reală a doctorului
         $mail->Subject = 'Nouă rezervare confirmată';
         $mail->Body = "
             O nouă rezervare a fost confirmată:<br>

@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $reservation_id = $pdo->lastInsertId();
 
         // Inițializează sesiunea Stripe pentru plată
-        $YOUR_DOMAIN = 'http://localhost/medicio';
+        $YOUR_DOMAIN = 'http://localhost/dermatologie';
         $session = \Stripe\Checkout\Session::create([
             'payment_method_types' => ['card'],
             'line_items' => [[
