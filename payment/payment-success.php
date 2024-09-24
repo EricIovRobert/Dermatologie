@@ -1,9 +1,10 @@
 <?php
 require '../database/db_connect.php'; // Conexiunea la baza de date
 require '../vendor/autoload.php'; // PHPMailer și Stripe SDK
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../'); // Adjust path if needed
+$dotenv->load();
 
-\Stripe\Stripe::setApiKey('sk_test_51PM4JAJVBSSkhR5YX4cLn2nte3Okt9vsad7gjyfF1H02kJe79PsPYuXZMAJhpaCK7iGCX1J42nciPFRsSWly4ujc009rYxPjf4'); // Cheia ta secretă Stripe
-
+\Stripe\Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -32,13 +33,13 @@ if ($session->payment_status === 'paid') {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'deian.ageu1@gmail.com'; // Username-ul din Mailtrap
-        $mail->Password = "qmnu pnhc fnpp edtj"; // Parola din Mailtrap
+        $mail->Username = 'bect.dermatologie@gmail.com'; // Username-ul din Mailtrap
+        $mail->Password = "nxvv vspe znqt qjet"; // Parola din Mailtrap
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
 
         // Setează expeditorul
-        $mail->setFrom('office@bect.com', 'Bect Dermatologie');
+        $mail->setFrom('bect.dermatologie@gmail.com', 'Bect Dermatologie');
 
         // Trimite emailul către client
         $mail->addAddress($reservation['email']); // Emailul clientului
@@ -49,7 +50,7 @@ if ($session->payment_status === 'paid') {
 
         // Trimite emailul către doctor
         $mail->clearAddresses();
-        $mail->addAddress('ericiov73@gmail.com'); // Adresa reală a doctorului
+        $mail->addAddress('kissgezalevente@yahoo.com'); // Adresa reală a doctorului
         $mail->Subject = 'Nouă rezervare confirmată';
         $mail->Body = "
             O nouă rezervare a fost confirmată:<br>
@@ -68,5 +69,5 @@ if ($session->payment_status === 'paid') {
     }
 } else {
     // Dacă plata nu a reușit, redirecționează către o pagină de eșec
-    header('Location: ../failure.html');
+    header('Location: failure.html');
 }

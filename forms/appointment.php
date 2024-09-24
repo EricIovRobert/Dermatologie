@@ -2,8 +2,11 @@
 require '../database/db_connect.php'; // Conexiunea la baza de date
 require '../vendor/autoload.php'; // Stripe SDK
 
-\Stripe\Stripe::setApiKey('sk_test_51PM4JAJVBSSkhR5YX4cLn2nte3Okt9vsad7gjyfF1H02kJe79PsPYuXZMAJhpaCK7iGCX1J42nciPFRsSWly4ujc009rYxPjf4'); // Cheia ta secretă Stripe
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../'); // Adjust path if needed
+$dotenv->load();
 
+// Now you can access the keys from the $_ENV superglobal
+\Stripe\Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
 // Verifică dacă cererea este POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Preia datele din formular
@@ -53,13 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'product_data' => [
                         'name' => 'Rezervare: ' . $service,
                     ],
-                    'unit_amount' => 5000, // Valoarea de plată (de ex. 50 lei)
+                    'unit_amount' => 16000, // Valoarea de plată (de ex. 50 lei)
                 ],
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => $YOUR_DOMAIN . '/payment/payment-success.php?session_id={CHECKOUT_SESSION_ID}&reservation_id=' . $reservation_id,
-            'cancel_url' => $YOUR_DOMAIN . '/payment/payment-cancel.php',
+            'success_url' => '../payment/payment-success.php?session_id={CHECKOUT_SESSION_ID}&reservation_id=' . $reservation_id,
+            'cancel_url' => '../payment/payment-cancel.php',
         ]);
 
         // Redirecționează utilizatorul către Stripe Checkout

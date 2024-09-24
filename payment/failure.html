@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eroare - Plata a eșuat</title>
+
+    <!-- CSS styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f9f9;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #ff5252;
+            font-size: 2.5em;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #ff5252;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        .btn:hover {
+            background-color: #e04040;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 5px solid #ff5252;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 0.9em;
+            color: #999;
+        }
+    </style>
+
+    <!-- JavaScript for redirection after 5 seconds -->
+    <script>
+        setTimeout(function() {
+            window.location.href = "../appointment.html"; // Redirecționare către pagina principală
+        }, 5000);
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Plata a eșuat!</h1>
+        <p>Din păcate, plata nu a fost procesată. Veți fi redirecționat către pagina principală în câteva secunde.</p>
+        
+        <!-- Loader Animation -->
+        <div class="loader"></div>
+
+        <p>Te rugăm să încerci din nou sau să contactezi suportul dacă problema persistă.</p>
+
+        <!-- Optional: Link pentru a reveni imediat -->
+        <a href="../appointment.html" class="btn">Înapoi la pagina de rezervari</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Bect Dermatologie. Toate drepturile rezervate.</p>
+    </footer>
+</body>
+
+</html>
