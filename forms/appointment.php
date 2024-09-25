@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $reservation_id = $pdo->lastInsertId();
 
         // Inițializează sesiunea Stripe pentru plată
-        $YOUR_DOMAIN = 'http://localhost/dermatologie';
+        $YOUR_DOMAIN = 'https://bect.ro';
         $session = \Stripe\Checkout\Session::create([
             'payment_method_types' => ['card'],
             'line_items' => [[
@@ -61,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => '../payment/payment-success.php?session_id={CHECKOUT_SESSION_ID}&reservation_id=' . $reservation_id,
-            'cancel_url' => '../payment/payment-cancel.php',
+            'success_url' => $YOUR_DOMAIN . '/payment/payment-success.php?session_id={CHECKOUT_SESSION_ID}&reservation_id=' . $reservation_id,
+            'cancel_url' => $YOUR_DOMAIN . '/payment/payment-cancel.php',
         ]);
 
         // Redirecționează utilizatorul către Stripe Checkout

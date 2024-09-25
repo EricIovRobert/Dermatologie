@@ -14,6 +14,8 @@ $stmt = $pdo->prepare("SELECT * FROM reservations WHERE id = :id");
 $stmt->execute(['id' => $reservation_id]);
 $reservation = $stmt->fetch();
 
+$YOUR_DOMAIN = 'https://bect.ro'; // Sau înlocuiește cu URL-ul domeniului tău
+
 
 $session = \Stripe\Checkout\Session::create([
     'payment_method_types' => ['card'],
@@ -28,8 +30,8 @@ $session = \Stripe\Checkout\Session::create([
         'quantity' => 1,
     ]],
     'mode' => 'payment',
-    'success_url' => '../payment/payment-success.php?session_id={CHECKOUT_SESSION_ID}',
-    'cancel_url' => '../payment/payment-cancel.php',
+    'success_url' => $YOUR_DOMAIN . '/payment/payment-success.php?session_id={CHECKOUT_SESSION_ID}',
+    'cancel_url' => $YOUR_DOMAIN . '/payment/payment-cancel.php',
 ]);
 
 header("Location: " . $session->url);
