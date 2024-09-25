@@ -2,8 +2,11 @@
 require '../vendor/autoload.php'; // Stripe SDK
 require '../database/db_connect.php'; // Fă conexiunea la baza de date
 
-\Stripe\Stripe::setApiKey('pk_live_51Q2EhgGALGqnsrsMOa3cWrsvKMk95QnRWStBZucXltjcI42pUaM0GBsxnqTz7wFdmbwZ93nE99RyvRpQ9Jesrig700vknlFK6r'); // Adaugă cheia ta secretă de test de la Stripe
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../'); // Adjust path if needed
+$dotenv->load();
 
+// Now you can access the keys from the $_ENV superglobal
+\Stripe\Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
 $reservation_id = $_GET['reservation_id'];
 
 // Preia detaliile rezervării din baza de date
@@ -11,7 +14,6 @@ $stmt = $pdo->prepare("SELECT * FROM reservations WHERE id = :id");
 $stmt->execute(['id' => $reservation_id]);
 $reservation = $stmt->fetch();
 
-$YOUR_DOMAIN = 'http://localhost/medicio'; // URL-ul tău local
 
 $session = \Stripe\Checkout\Session::create([
     'payment_method_types' => ['card'],
@@ -21,13 +23,13 @@ $session = \Stripe\Checkout\Session::create([
             'product_data' => [
                 'name' => 'Rezervare - ' . $reservation['service'],
             ],
-            'unit_amount' => 5000, // Suma de plată (de exemplu, 50 RON)
+            'unit_amount' => 16000, // Suma de plată (de exemplu, 50 RON)
         ],
         'quantity' => 1,
     ]],
     'mode' => 'payment',
-    'success_url' => $YOUR_DOMAIN . '/payment/payment-success.php?session_id={CHECKOUT_SESSION_ID}',
-    'cancel_url' => $YOUR_DOMAIN . '/payment/payment-cancel.php',
+    'success_url' => '../payment/payment-success.php?session_id={CHECKOUT_SESSION_ID}',
+    'cancel_url' => '../payment/payment-cancel.php',
 ]);
 
 header("Location: " . $session->url);
