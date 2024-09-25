@@ -862,15 +862,14 @@ section,
   text-align: center;
   padding-top: 30px;
   padding-bottom: 30px;
-  margin-bottom: 50px;
+  margin: auto;
   border-top: 4px solid var(--accent-color);
   z-index: 3;
 }
 
 @media (max-width: 1200px) {
   .hero .container {
-    margin-left: 50px;
-    margin-right: 50px;
+    margin: auto 50px;
   }
 }
 
